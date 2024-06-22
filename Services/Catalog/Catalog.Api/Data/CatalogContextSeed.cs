@@ -11,7 +11,7 @@ namespace Catalog.Api.Data
                 .Find(p => true)
                 .Any();
 
-            if (existsProduct)
+            if (existsProduct == false)
             {
                 products.InsertManyAsync(GetSeedData());
             }

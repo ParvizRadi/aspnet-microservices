@@ -25,6 +25,7 @@ namespace Catalog.Api.Controllers
         #region Method's
 
         #region Get All
+
         [HttpGet]
         [ProducesResponseType(type: typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
@@ -34,11 +35,12 @@ namespace Catalog.Api.Controllers
 
             return Ok(product);
         }
+
         #endregion
 
         #region Get Product By Id
 
-        [HttpGet(template:"{id:length(24)}")]
+        [HttpGet(template: "{id:length(24)}")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(type: typeof(Product), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Product>> GetProductById(string id)
@@ -59,7 +61,7 @@ namespace Catalog.Api.Controllers
 
         #region Get By name
 
-        [HttpGet]
+        [HttpGet(template: "[action]/{name}")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(type: typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductsByName(string name)
@@ -70,6 +72,27 @@ namespace Catalog.Api.Controllers
             if (product == null)
             {
                 _logger.LogError(message: $"Product with name :{name} not found ");
+                return NotFound();
+            }
+
+            return Ok(product);
+        }
+
+        #endregion
+
+        #region Get By category
+
+        [HttpGet(template: "[action]/{category}")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(type: typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategory(string category)
+        {
+            var product = await _productRepository
+                .GetByCategoryAsync(categoryName: category);
+
+            if (product == null)
+            {
+                _logger.LogError(message: $"Product with category :{category} not found ");
                 return NotFound();
             }
 

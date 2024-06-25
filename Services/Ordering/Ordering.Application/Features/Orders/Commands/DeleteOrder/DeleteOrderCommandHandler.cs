@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Ordering.Application.Contracts.Persistence;
+using Ordering.Application.Exceptions;
 using Ordering.Application.Features.Orders.Commands.UpdateOrder;
 
 namespace Ordering.Application.Features.Orders.Commands.DeleteOrder
@@ -27,6 +28,8 @@ namespace Ordering.Application.Features.Orders.Commands.DeleteOrder
             if (record == null)
             {
                 _logger.LogError("order is not exists");
+
+                throw new NotFoundException(nameof(record), request.Id);
             }
             else
             {

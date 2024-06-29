@@ -30,10 +30,10 @@ namespace Catalog.Api.Controllers
         [ProducesResponseType(type: typeof(IEnumerable<Product>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            var product = await _productRepository
+            var products = await _productRepository
                 .GetAllProductsAsync();
 
-            return Ok(product);
+            return Ok(products);
         }
 
         #endregion
@@ -105,7 +105,7 @@ namespace Catalog.Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(type: typeof(Product), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<Product>>> CreateProduct([FromBody] Product product)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] Product product)
         {
             await _productRepository
                .CreateProductAsync(product: product);

@@ -1,12 +1,9 @@
-﻿using Ordering.Domain.Common;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ordering.Domain.Entities
+namespace EventBus.Messages.Events
 {
-    public class Order : EntityBase
+    public class BasketCheckoutEvent : IntegrationBaseEvent
     {
-        // todo: validation's
-
         public string UserName { get; set; }
 
         public decimal TotalPrice { get; set; }
@@ -29,7 +26,5 @@ namespace Ordering.Domain.Entities
         public string RefCode { get; set; }
 
         public byte PaymentMethod { get; set; }
-
-
     }
 }
